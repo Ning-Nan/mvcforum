@@ -128,19 +128,19 @@
             return null;
         }
 
-        [HttpPost]
-        public PartialViewResult MvcForumLatestNews()
-        {
-            if (Request.IsAjaxRequest())
-            {
-                var reader = new RssReader();
-                var viewModel = new LatestNewsViewModel
-                {
-                    RssFeed = reader.GetRssFeed("http://www.mvcforum.com/rss").Take(AmountToShow).ToList()
-                };
-                return PartialView(viewModel);
-            }
-            return null;
-        }
+        //[HttpPost]
+        //public PartialViewResult MvcForumLatestNews()
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        var reader = new RssReader();
+        //        var viewModel = new LatestNewsViewModel
+        //        {
+        //            RssFeed = reader.GetRssFeed("http://www.mvcforum.com/rss").Take(AmountToShow).ToList()
+        //        };
+        //        return PartialView(viewModel);
+        //    }
+        //    return null;
+        //}
     }
 }

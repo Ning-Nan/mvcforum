@@ -29,10 +29,10 @@
         public IList<Topic> Topics { get; set; }
     }
 
-    public class LatestNewsViewModel
-    {
-        public IList<MvcForum.Core.Utilities.RssItem> RssFeed { get; set; }
-    }
+    //public class LatestNewsViewModel
+    //{
+    //    public IList<MvcForum.Core.Utilities.RssItem> RssFeed { get; set; }
+    //}
 
     public class TodaysTopics
     {
