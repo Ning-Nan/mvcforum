@@ -219,6 +219,7 @@
     <Compile Include="ViewModels\Vote\ShowVotesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Plugins\MvcForum.Plugins.dll" />
     <Content Include="Config\imageprocessor\cache.config" />
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Areas\Admin\Views\AdminCategory\Sections.cshtml" />
@@ -1179,7 +1180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\StorageProviders\" />
-    <Folder Include="App_Data\Plugins\" />
     <Folder Include="Content\languagepacks\" />
   </ItemGroup>
   <ItemGroup>
