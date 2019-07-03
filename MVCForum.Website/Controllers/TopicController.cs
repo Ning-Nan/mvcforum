@@ -103,6 +103,7 @@
             if (topicIds.Any())
             {
                 var topics = _topicService.Get(topicIds, allowedCategories);
+                topics = topics.Where(x => x.Pending != null && !x.Pending.GetValueOrDefault()).ToList();
 
                 // Get the Topic View Models
                 viewModel = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnloggedOnUsersRole,
@@ -865,7 +866,7 @@
                 allowedCategories)).Result;
 
             // Get the Topic View Models
-            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics, RoleService, loggedOnUsersRole,
+            var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics.Where(x => x.Pending != null && !x.Pending.GetValueOrDefault()).ToList(), RoleService, loggedOnUsersRole,
                 loggedOnReadOnlyUser, allowedCategories, settings, _postService, _notificationService,
                 _pollService, _voteService, _favouriteService);
 
@@ -905,6 +906,7 @@
                 // Get the topics
                 var topics = _topicService.GetPopularTopics(from, to, allowedCategories, (int)amountToShow);
 
+                topics = topics.Where(x => x.Pending != null && !x.Pending.GetValueOrDefault()).ToList();
                 // Get the Topic View Models
                 var topicViewModels = ViewModelMapping.CreateTopicViewModels(topics.ToList(), RoleService,
                     loggedOnUsersRole, loggedOnReadOnlyUser, allowedCategories, SettingsService.GetSettings(),

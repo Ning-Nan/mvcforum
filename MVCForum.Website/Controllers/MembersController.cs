@@ -2,8 +2,11 @@
 {
     using System;
     using System.Linq;
+    using System.Net.Http;
+    using System.Runtime.InteropServices;
     using System.Security.Principal;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
@@ -19,6 +22,7 @@
     using Core.Models.General;
     using Core.Pipeline;
     using Core.Reflection;
+    using MvcForum.Web.Helper;
     using ViewModels;
     using ViewModels.Admin;
     using ViewModels.ExtensionMethods;
@@ -90,6 +94,8 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
+
         [Authorize(Roles = Constants.AdminRoleName)]
         public virtual async Task<ActionResult> SrubAndBanUser(Guid id)
         {
@@ -357,13 +363,18 @@
 
                 // Get the user model
                 var user = userModel.ToMembershipUser();
+                //User register data added test.
+                user.Age = 50;
 
+                //var staff = LDAPHelper.getStaffByID(user.UserName);
+                
                 var pipeline = await MembershipService.CreateUser(user, LoginType.Standard);
                 if (!pipeline.Successful)
                 {
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());
                     return View();
                 }
+
 
                 // Do the register logic
                 return MemberRegisterLogic(pipeline);
@@ -429,6 +440,8 @@
 
                 // Save any outstanding changes
                 Context.SaveChanges();
+
+                
 
                 if (homeRedirect)
                 {
@@ -619,8 +632,28 @@
         ///     Log on
         /// </summary>
         /// <returns></returns>
-        public virtual ActionResult LogOn()
+        // Perform login before the page load.
+        // How to perform?
+        // Do grab user name from API
+        // Try login? (Return URL)
+        // Failed then register it.
+
+        public virtual async Task<ActionResult> LogOn(string staffNo="", string returnURL="")
         {
+
+            if (!string.IsNullOrEmpty(staffNo))
+            {
+                LogOnViewModel LogOnModel = new LogOnViewModel();
+                LogOnModel.UserName = staffNo;
+                LogOnModel.Password = "99256789";
+                if (!string.IsNullOrEmpty(returnURL))
+                {
+                    LogOnModel.ReturnUrl = returnURL;
+                }
+                return await LogOn(LogOnModel);
+
+            }
+
             // Create the empty view model
             var viewModel = new LogOnViewModel();
 
@@ -701,6 +734,35 @@
                     // If not just go to home page
                     return RedirectToAction("Index", "Home", new { area = string.Empty });
                 }
+                else
+                {
+                    StaffModel staff = new StaffModel();
+                    try
+                    {
+                         staff = LDAPHelper.getStaffByID(model.UserName);
+                    }
+                    catch (Exception e)
+                    {
+
+                        ModelState.AddModelError(string.Empty,loginResult.ProcessLog.FirstOrDefault());
+                        return View(model);
+                    }
+
+                    var emptyUser = MembershipService.CreateEmptyUser();
+
+                    // Populate empty viewmodel
+                    MemberAddViewModel addMember = new MemberAddViewModel();
+                    addMember.Password = model.Password;
+                    addMember.UserName = model.UserName;
+                    addMember.ReturnUrl = model.ReturnUrl;
+                    addMember.ConfirmPassword = model.Password;
+                    addMember.Email = staff.email;
+                    addMember.IsApproved = emptyUser.IsApproved;
+                    addMember.Comment = emptyUser.Comment;
+                    addMember.AllRoles = RoleService.AllRoles();
+                    
+                    return await Register(addMember);
+                }
 
                 // Add the error if we get here
                 ModelState.AddModelError(string.Empty, loginResult.ProcessLog.FirstOrDefault());
@@ -708,6 +770,8 @@
 
             return View(model);
         }
+
+
 
         /// <summary>
         ///     Get: log off user

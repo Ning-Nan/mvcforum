@@ -12,6 +12,28 @@
     TempData[Constants.GlobalClass] = Convert.ToBoolean(PageData[Constants.IsMobileDevice]) ? "mobile" : "desktop";
     TempData[Constants.CurrentAction] = ViewContext.RouteData.GetRequiredString("action").ToLower();
     TempData[Constants.CurrentController] = ViewContext.RouteData.GetRequiredString("controller").ToLower();
+
+
+    var returnURL = Request.Url.AbsoluteUri;
+    var WindowsAuthURL = System.Configuration.ConfigurationManager.AppSettings["WindowsAuthURL"];
+    //If Not valid User redirect to get windows auth.
+    if(!User.Identity.IsAuthenticated)
+    {
+        if (Request.Url.AbsoluteUri.Contains("staffNo"))
+        {
+            var index = Request.Url.AbsoluteUri.IndexOf("staffNo=");
+            var length = ("staffNo=").Length;
+            var staffNo = Request.Url.AbsoluteUri.Substring(index + length);
+            Response.Redirect(Url.Action("LogOn", "Members", new { staffNo = staffNo, returnURL = returnURL }));
+        }
+        else
+        {
+            Response.Redirect(WindowsAuthURL + returnURL);
+        }
+    }
+
+    
+    //return URL set as current URL
 }
 <!DOCTYPE html>
 <html lang="en">

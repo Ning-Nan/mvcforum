@@ -41,7 +41,10 @@ else
     }
     <li>@Html.ActionLink(Html.LanguageString("Members.SearchMembers"), "Search", "Members")</li>
     <li>
+        @if(Model.CurrentUser!=null)
+        {
         <a href="@Url.Action("Edit", "Members", new { id = Model.CurrentUser.Id })">@Html.LanguageString("Buttons.Edit") @Model.CurrentUser.UserName</a>
+        }
     </li>
     if (Model.CanViewPrivateMessages)
     {
