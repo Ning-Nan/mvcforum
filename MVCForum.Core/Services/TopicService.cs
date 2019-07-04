@@ -124,12 +124,12 @@
         {
             if (from == null)
             {
-                from = DateTime.UtcNow.AddDays(-14);
+                from = DateTime.Now.AddDays(-14);
             }
 
             if (to == null)
             {
-                to = DateTime.UtcNow;
+                to = DateTime.Now;
             }
 
             // get the category ids
@@ -285,7 +285,7 @@
 
         public List<MarkAsSolutionReminder> GetMarkAsSolutionReminderList(int days)
         {
-            var datefrom = DateTime.UtcNow.AddDays(-days);
+            var datefrom = DateTime.Now.AddDays(-days);
             return _context.Topic
                 .Include(x => x.Category)
                 .Include(x => x.User)
@@ -880,7 +880,7 @@
         {
             topicTitle = StringUtils.SafePlainText(topicTitle);
 
-            var timeNow = DateTime.UtcNow;
+            var timeNow = DateTime.Now;
             var floodWindow = timeNow.AddMinutes(-2);
 
             // Firstly check to see if they have posted the same topic title already in the past 2 minutes

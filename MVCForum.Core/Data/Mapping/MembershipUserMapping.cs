@@ -16,6 +16,7 @@
                                     new IndexAnnotation(new IndexAttribute("IX_MembershipUser_UserName", 1) { IsUnique = true }));
             Property(x => x.Password).IsRequired().HasMaxLength(128);
             Property(x => x.PasswordSalt).IsOptional().HasMaxLength(128);
+            Property(x => x.Name).IsOptional().HasMaxLength(256);
             Property(x => x.Email).IsOptional().HasMaxLength(256);
             Property(x => x.PasswordQuestion).IsOptional().HasMaxLength(256);
             Property(x => x.PasswordAnswer).IsOptional().HasMaxLength(256);

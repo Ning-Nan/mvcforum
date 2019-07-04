@@ -14,7 +14,7 @@
             {
                 existingTopic = new Topic
                 {
-                    CreateDate = DateTime.UtcNow,
+                    CreateDate = DateTime.Now,
                     User = user
                 };
             }
@@ -33,7 +33,7 @@
                 {
                     User = user,
                     ClosePollAfterDays = viewModel.PollCloseAfterDays,
-                    DateCreated = DateTime.UtcNow
+                    DateCreated = DateTime.Now
                 };
 
                 // Now sort the answers

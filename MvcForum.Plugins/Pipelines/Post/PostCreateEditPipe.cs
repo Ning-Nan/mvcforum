@@ -63,7 +63,7 @@
                     input.EntityToProcess.PostContent = postedContent;
 
                     // This is an edit of a post
-                    input.EntityToProcess.DateEdited = DateTime.UtcNow;
+                    input.EntityToProcess.DateEdited = DateTime.Now;
 
                     // Grab the original name out the extended data
                     var topicName = input.ExtendedData[Constants.ExtendedDataKeys.Name] as string;

@@ -21,7 +21,7 @@
 
             // Get clock ticks since 1900 and convert to byte array (we will use last 4 bytes later)
             var time = new DateTime(1900, 1, 1);
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
             var ticksSince1900 = new TimeSpan(now.Ticks - time.Ticks);
             var bytesFromClockTicks = BitConverter.GetBytes(ticksSince1900.Days);
 

@@ -30,7 +30,7 @@
                 if (input.EntityToProcess.Points != 0)
                 {
                     // Add Date
-                    input.EntityToProcess.DateAdded = DateTime.UtcNow;
+                    input.EntityToProcess.DateAdded = DateTime.Now;
 
                     // Check this point has not already been awarded
                     var canAddPoints = true;

@@ -344,7 +344,7 @@
             if (ModelState.IsValid)
             {
                 var section = sectionAddEditViewModel.IsEdit ? _categoryService.GetSection(sectionAddEditViewModel.Id) 
-                                                                : new Section{DateCreated = DateTime.UtcNow};
+                                                                : new Section{DateCreated = DateTime.Now};
 
                 section.Name = sectionAddEditViewModel.Name;
                 section.Description = sectionAddEditViewModel.Description;

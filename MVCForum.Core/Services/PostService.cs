@@ -534,8 +534,8 @@
                 User = user,
                 Topic = topic,
                 IpAddress = StringUtils.GetUsersIpAddress(),
-                DateCreated = DateTime.UtcNow,
-                DateEdited = DateTime.UtcNow,
+                DateCreated = DateTime.Now,
+                DateEdited = DateTime.Now,
                 Pending = topic.Category.ModeratePosts == true
             };
 
@@ -669,7 +669,7 @@
 
         public bool PassedPostFloodTest(MembershipUser user)
         {
-            var timeNow = DateTime.UtcNow;
+            var timeNow = DateTime.Now;
             var floodWindow = timeNow.AddSeconds(-ForumConfiguration.Instance.PostSecondsWaitBeforeNewPost);
 
             return _context.Post.AsNoTracking()

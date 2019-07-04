@@ -11,6 +11,7 @@
         <ul>
             @foreach (var topicViewModel in Model.Topics)
             {
+                
                 <li>
                     <span class="badge">@count</span>
                     <a href="@topicViewModel.Topic.NiceUrl">@Html.Raw(topicViewModel.Topic.Name)</a>

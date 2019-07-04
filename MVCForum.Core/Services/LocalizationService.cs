@@ -121,7 +121,7 @@
                     $"The resource key with name '{newLocaleResourceKey.Name}' already exists.");
             }
 
-            newLocaleResourceKey.DateAdded = DateTime.UtcNow;
+            newLocaleResourceKey.DateAdded = DateTime.Now;
 
             // Now add an empty value for each language
             newLocaleResourceKey.LocaleStringResources = new List<LocaleStringResource>();
@@ -797,7 +797,7 @@
                         resourceKey = new LocaleResourceKey
                         {
                             Name = key,
-                            DateAdded = DateTime.UtcNow,
+                            DateAdded = DateTime.Now,
                         };
 
                         Add(resourceKey);

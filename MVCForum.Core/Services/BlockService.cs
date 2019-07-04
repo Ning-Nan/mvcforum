@@ -33,7 +33,7 @@
 
         public Block Add(Block block)
         {
-            block.Date = DateTime.UtcNow;
+            block.Date = DateTime.Now;
             return _context.Block.Add(block);
         }
 

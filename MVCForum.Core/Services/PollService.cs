@@ -45,7 +45,7 @@
         /// <inheritdoc />
         public Poll Add(Poll poll)
         {
-            poll.DateCreated = DateTime.UtcNow;
+            poll.DateCreated = DateTime.Now;
             poll.IsClosed = false;
             return _context.Poll.Add(poll);
         }

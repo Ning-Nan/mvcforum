@@ -228,9 +228,9 @@
 
                                         }
                                         user.Badges.Add(dbBadge);
-                                        //_activityService.BadgeAwarded(badgeMapping.DbBadge, user, DateTime.UtcNow);
+                                        //_activityService.BadgeAwarded(badgeMapping.DbBadge, user, DateTime.Now);
                                         var badgeActivity =
-                                            BadgeActivity.GenerateMappedRecord(badgeMapping.DbBadge, user, DateTime.UtcNow);
+                                            BadgeActivity.GenerateMappedRecord(badgeMapping.DbBadge, user, DateTime.Now);
                                         _context.Activity.Add(badgeActivity);
                                         EventManager.Instance.FireAfterBadgeAwarded(this,
                                             new BadgeEventArgs
@@ -323,7 +323,7 @@
         private bool RecentlyProcessed(BadgeType badgeType, MembershipUser user)
         {
             var recentlyProcessed = false;
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             BadgeTypeTimeLastChecked timeBadgeLastChecked = null;
 

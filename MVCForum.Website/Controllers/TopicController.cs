@@ -702,7 +702,7 @@
                     // Check the date the topic was created
                     var endDate =
                         viewModel.Poll.Poll.DateCreated.AddDays((int)viewModel.Poll.Poll.ClosePollAfterDays);
-                    if (DateTime.UtcNow > endDate)
+                    if (DateTime.Now > endDate)
                     {
                         topic.Poll.IsClosed = true;
                         viewModel.Topic.Poll.IsClosed = true;

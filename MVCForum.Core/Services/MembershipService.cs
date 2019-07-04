@@ -234,7 +234,7 @@
             if (user.FailedPasswordAttemptCount >= allowedPasswordAttempts)
             {
                 user.IsLockedOut = true;
-                user.LastLockoutDate = DateTime.UtcNow;
+                user.LastLockoutDate = DateTime.Now;
             }
 
             if (!passwordMatches)
@@ -252,7 +252,7 @@
         /// <returns></returns>
         public MembershipUser CreateEmptyUser()
         {
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             return new MembershipUser
             {
@@ -296,9 +296,9 @@
             newUser.Roles = new List<MembershipRole> { settings.NewMemberStartingRole };
 
             // Set dates
-            newUser.CreateDate = newUser.LastPasswordChangedDate = DateTime.UtcNow;
+            newUser.CreateDate = newUser.LastPasswordChangedDate = DateTime.Now;
             newUser.LastLockoutDate = (DateTime)SqlDateTime.MinValue;
-            newUser.LastLoginDate = DateTime.UtcNow;
+            newUser.LastLoginDate = DateTime.Now;
             newUser.IsLockedOut = false;
             newUser.Slug = ServiceHelpers.GenerateSlug(newUser.UserName,
                 GetUserBySlugLike(ServiceHelpers.CreateUrl(newUser.UserName)).Select(x => x.Slug).ToList(), null);
@@ -538,7 +538,7 @@
         /// <returns></returns>
         public IList<MembershipUser> GetUsersByDaysPostsPoints(int amoutOfDaysSinceRegistered, int amoutOfPosts)
         {
-            var registerEnd = DateTime.UtcNow;
+            var registerEnd = DateTime.Now;
             var registerStart = registerEnd.AddDays(-amoutOfDaysSinceRegistered);
 
 
@@ -600,7 +600,7 @@
 
             existingUser.Password = newHash;
             existingUser.PasswordSalt = salt;
-            existingUser.LastPasswordChangedDate = DateTime.UtcNow;
+            existingUser.LastPasswordChangedDate = DateTime.Now;
 
             return true;
         }
@@ -620,7 +620,7 @@
 
             existingUser.Password = newHash;
             existingUser.PasswordSalt = salt;
-            existingUser.LastPasswordChangedDate = DateTime.UtcNow;
+            existingUser.LastPasswordChangedDate = DateTime.Now;
 
             return true;
         }
@@ -666,7 +666,7 @@
         {
 
             // Get members that last activity date is valid
-            var date = DateTime.UtcNow.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
+            var date = DateTime.Now.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
             return _context.MembershipUser
                 .Where(x => x.LastActivityDate > date)
                 .AsNoTracking()
@@ -897,7 +897,7 @@
                         createDateStr = values[2];
                     }
                     userToImport.CreateDate =
-                        createDateStr.IsNullEmpty() ? DateTime.UtcNow : DateTime.Parse(createDateStr);
+                        createDateStr.IsNullEmpty() ? DateTime.Now : DateTime.Parse(createDateStr);
 
                     if (values.Length >= 4)
                     {
@@ -977,7 +977,7 @@
                 return false;
             }
             existingUser.PasswordResetToken = CreatePasswordResetToken();
-            existingUser.PasswordResetTokenCreatedAt = DateTime.UtcNow;
+            existingUser.PasswordResetTokenCreatedAt = DateTime.Now;
             return true;
         }
 
@@ -1015,7 +1015,7 @@
                 return false;
             }
             // The security token is only valid for 48 hours
-            if ((DateTime.UtcNow - existingUser.PasswordResetTokenCreatedAt.Value).TotalHours >=
+            if ((DateTime.Now - existingUser.PasswordResetTokenCreatedAt.Value).TotalHours >=
                 MaxHoursToResetPassword)
             {
                 return false;

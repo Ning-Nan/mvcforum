@@ -53,7 +53,7 @@
             {
                 var policy = new CacheItemPolicy
                 {
-                    AbsoluteExpiration = DateTime.UtcNow + TimeSpan.FromMinutes((int)minutesToCache)
+                    AbsoluteExpiration = DateTime.Now + TimeSpan.FromMinutes((int)minutesToCache)
                 };
 
                 Cache.Add(new CacheItem(key, data), policy);

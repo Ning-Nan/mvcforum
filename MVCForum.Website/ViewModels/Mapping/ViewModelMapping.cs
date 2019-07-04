@@ -339,7 +339,15 @@
             var userIsAuthenticated = loggedOnUser != null;
 
             // Check for online status
-            var date = DateTime.UtcNow.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
+            var date = DateTime.Now.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
+            //if (topic.Pending !=null)
+            //{
+            //    if(topic.Pending.Value)
+            //    {
+            //        return null;
+            //    }
+
+            //}
 
             var viewModel = new TopicViewModel
             {
@@ -455,7 +463,7 @@
             }
 
             // Check for online status
-            var date = DateTime.UtcNow.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
+            var date = DateTime.Now.AddMinutes(-Constants.TimeSpanInMinutesToShowMembers);
 
             return new PostViewModel
             {

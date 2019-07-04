@@ -114,7 +114,7 @@ namespace MvcForum.Core.Services.Migrations
                         var resourceKey = new LocaleResourceKey
                         {
                             Name = key,
-                            DateAdded = DateTime.UtcNow
+                            DateAdded = DateTime.Now
                         };
                         context.LocaleResourceKey.Add(resourceKey);
 
@@ -178,7 +178,7 @@ namespace MvcForum.Core.Services.Migrations
                         ModeratePosts = false,
                         ModerateTopics = false,
                         Slug = ServiceHelpers.CreateUrl(exampleCatName),
-                        DateCreated = DateTime.UtcNow
+                        DateCreated = DateTime.Now
                     };
 
                     context.Category.Add(exampleCat);
@@ -358,10 +358,10 @@ namespace MvcForum.Core.Services.Migrations
                         DisableEmailNotifications = false,
                         DisablePosting = false,
                         DisablePrivateMessages = false,
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         LastLockoutDate = (DateTime) SqlDateTime.MinValue,
                         LastPasswordChangedDate = (DateTime) SqlDateTime.MinValue,
-                        LastLoginDate = DateTime.UtcNow,
+                        LastLoginDate = DateTime.Now,
                         LastActivityDate = null,
                         IsLockedOut = false,
                         Slug = ServiceHelpers.CreateUrl(adminUsername)
@@ -385,7 +385,7 @@ namespace MvcForum.Core.Services.Migrations
                     var topic = new Topic
                     {
                         Category = category,
-                        CreateDate = DateTime.UtcNow,
+                        CreateDate = DateTime.Now,
                         User = admin,
                         IsSticky = true,
                         Name = name,
@@ -413,8 +413,8 @@ namespace MvcForum.Core.Services.Migrations
 
                     var post = new Post
                     {
-                        DateCreated = DateTime.UtcNow,
-                        DateEdited = DateTime.UtcNow,
+                        DateCreated = DateTime.Now,
+                        DateEdited = DateTime.Now,
                         Topic = topic,
                         IsTopicStarter = true,
                         User = admin,

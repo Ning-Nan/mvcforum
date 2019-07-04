@@ -236,9 +236,9 @@
         {
             if (User.Identity.IsAuthenticated)
             {
-                var rightNow = DateTime.UtcNow;
+                var rightNow = DateTime.Now;
                 var currentUser = MembershipService.GetUser(User.Identity.Name, true);
-                var usersDate = currentUser.LastActivityDate ?? DateTime.UtcNow.AddDays(-1);
+                var usersDate = currentUser.LastActivityDate ?? DateTime.Now.AddDays(-1);
 
                 var span = rightNow.Subtract(usersDate);
                 var totalMins = span.TotalMinutes;
@@ -249,7 +249,7 @@
                     var loggedOnUser = MembershipService.GetUser(User.Identity.Name);
 
                     // Update users last activity date so we can show the latest users online
-                    loggedOnUser.LastActivityDate = DateTime.UtcNow;
+                    loggedOnUser.LastActivityDate = DateTime.Now;
 
                     // Update
                     try
@@ -364,10 +364,9 @@
                 // Get the user model
                 var user = userModel.ToMembershipUser();
                 //User register data added test.
-                user.Age = 50;
+                var staff = LDAPHelper.getStaffByID(user.UserName);
+                user.Name = staff.displayName;
 
-                //var staff = LDAPHelper.getStaffByID(user.UserName);
-                
                 var pipeline = await MembershipService.CreateUser(user, LoginType.Standard);
                 if (!pipeline.Successful)
                 {
@@ -588,7 +587,7 @@
                     var myCookie =
                         new HttpCookie(Constants.MemberEmailConfirmationCookieName)
                         {
-                            Expires = DateTime.UtcNow.AddDays(-1)
+                            Expires = DateTime.Now.AddDays(-1)
                         };
                     Response.Cookies.Add(myCookie);
 

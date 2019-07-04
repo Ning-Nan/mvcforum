@@ -84,7 +84,7 @@
                     {
                         var favourite = new Favourite
                         {
-                            DateCreated = DateTime.UtcNow,
+                            DateCreated = DateTime.Now,
                             Member = loggedOnUser,
                             Post = post,
                             Topic = topic

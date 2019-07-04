@@ -58,7 +58,7 @@
         ///     will not check the validate the access token against the API.
         /// </summary>
         [JsonIgnore]
-        public bool IsValid => !string.IsNullOrWhiteSpace(AccessToken) && ExpiresAt > DateTime.UtcNow;
+        public bool IsValid => !string.IsNullOrWhiteSpace(AccessToken) && ExpiresAt > DateTime.Now;
 
         #endregion
 

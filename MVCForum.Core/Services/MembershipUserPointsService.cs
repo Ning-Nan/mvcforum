@@ -158,7 +158,7 @@
             var comparer = new EntityEqualityComparer<MembershipUser>();
 
             amountToTake = amountToTake ?? int.MaxValue;
-            var date = DateTime.UtcNow;
+            var date = DateTime.Now;
             var start = date.Date.AddDays(-(int)date.DayOfWeek);
             var end = start.AddDays(7);
 
@@ -188,7 +188,7 @@
             var comparer = new EntityEqualityComparer<MembershipUser>();
 
             amountToTake = amountToTake ?? int.MaxValue;
-            var thisYear = DateTime.UtcNow.Year;
+            var thisYear = DateTime.Now.Year;
 
             // We tolist here as GroupBy is expensive operation on the DB with EF
             var points = _context.MembershipUserPoints.AsNoTracking()

@@ -47,7 +47,7 @@
                         {
                             Blocked = otherMember,
                             Blocker = loggedOnUser,
-                            Date = DateTime.UtcNow
+                            Date = DateTime.Now
                         });
                     }
 

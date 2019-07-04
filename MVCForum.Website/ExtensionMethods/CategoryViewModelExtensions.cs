@@ -26,7 +26,7 @@
                 PageTitle = categoryViewModel.PageTitle,
                 MetaDescription = categoryViewModel.MetaDesc,
                 Colour = categoryViewModel.CategoryColour,
-                DateCreated = DateTime.UtcNow
+                DateCreated = DateTime.Now
             };
 
             return category;

@@ -62,7 +62,7 @@
                     var bannedEmail = new BannedEmail
                     {
                         Email = addBannedEmailViewModel.Email,
-                        DateAdded = DateTime.UtcNow
+                        DateAdded = DateTime.Now
                     };
 
                     _bannedEmailService.Add(bannedEmail);

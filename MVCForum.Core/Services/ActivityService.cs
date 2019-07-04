@@ -153,7 +153,7 @@
         /// <param name="user"></param>
         public void ProfileUpdated(MembershipUser user)
         {
-            var profileUpdatedActivity = ProfileUpdatedActivity.GenerateMappedRecord(user, DateTime.UtcNow);
+            var profileUpdatedActivity = ProfileUpdatedActivity.GenerateMappedRecord(user, DateTime.Now);
             Add(profileUpdatedActivity);
         }
 
@@ -163,7 +163,7 @@
         /// <param name="post"></param>
         public void PostCreated(Post post)
         {
-            var postCreatedActivity = PostCreatedActivity.GenerateMappedRecord(post, DateTime.UtcNow);
+            var postCreatedActivity = PostCreatedActivity.GenerateMappedRecord(post, DateTime.Now);
             Add(postCreatedActivity);
         }
 
@@ -173,7 +173,7 @@
         /// <param name="topic"></param>
         public void TopicCreated(Topic topic)
         {
-            var topicCreatedActivity = TopicCreatedActivity.GenerateMappedRecord(topic, DateTime.UtcNow);
+            var topicCreatedActivity = TopicCreatedActivity.GenerateMappedRecord(topic, DateTime.Now);
             Add(topicCreatedActivity);
         }
 
