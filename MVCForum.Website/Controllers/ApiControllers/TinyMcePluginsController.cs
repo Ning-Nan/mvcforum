@@ -1,8 +1,11 @@
 ﻿namespace MvcForum.Web.Controllers.ApiControllers
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization;
     using System.Web;
     using System.Web.Hosting;
     using System.Web.Http;
@@ -12,6 +15,7 @@
     using Core.Interfaces.Services;
     using Core.Ioc;
     using Core.Models.General;
+    using MvcForum.Core.Models.Entities;
     using Unity;
 
     [Authorize]
@@ -101,5 +105,46 @@
 
             return string.Empty;
         }
+
+
+        [AllowAnonymous]
+        [Route("ExportTopic")]
+        [HttpGet]
+        public IHttpActionResult ExportTopic()
+        {
+            var topicService = UnityHelper.Container.Resolve<ITopicService>();
+            var context = UnityHelper.Container.Resolve<IMvcForumContext>();    
+            topicService.RefreshContext(context);
+            var latestPost = topicService.getListForAPI();
+            var baseURL = System.Configuration.ConfigurationManager.AppSettings["baseURL"];
+
+
+            ArrayList returnModel = new ArrayList();
+
+            foreach (Topic post in latestPost)
+            {
+                ApiModel model = new ApiModel();
+                model.title = post.Name;
+                model.name = post.User.Name;
+                model.date = post.CreateDate;
+
+                model.url = baseURL + "thread/" + post.Slug;
+
+                returnModel.Add(model);
+            }
+           
+
+            return Ok(returnModel);
+
+        }
+
+        public class ApiModel
+        {
+            public string url { get; set; }
+            public string title { get; set; }
+            public string name { get; set; }
+            public DateTime date { get; set; }
+        }
+
     }
 }

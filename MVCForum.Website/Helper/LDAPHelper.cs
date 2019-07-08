@@ -117,6 +117,24 @@ namespace MvcForum.Web.Helper
             {
                 staff.state = result.Properties["st"][0].ToString();
             }
+            try
+            {
+                if (result.Properties["thumbnailPhoto"].Count > 0)
+                {
+                    byte[] staffPhoto = (byte[])result.Properties["thumbnailPhoto"][0];
+                    string imreBase64Data = Convert.ToBase64String(staffPhoto);
+                    staff.staffPhotoURL = String.Format("data:image/png;base64,{0}", imreBase64Data);
+                }
+                else
+                {
+                    staff.staffPhotoURL = null;
+                }
+            }
+            catch (Exception e )
+            {
+
+                staff.staffPhotoURL = null;
+            }
             return staff;
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace MvcForum.Core.Services
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -388,6 +389,17 @@
                     .Where(x => postIds.Contains(x.LastPost.Id) && allowedCatIds.Contains(x.Category.Id))
                     .Where(x => x.Pending != true)
                     .ToList();
+        }
+
+        public IList getListForAPI() {
+
+            var latestPost = _context.Topic
+                                            .Include(x => x.User)
+                                            .Where(x => x.Pending!=true)
+                                            .Take(100)
+                                            .ToList();
+
+            return latestPost;
         }
 
         /// <summary>

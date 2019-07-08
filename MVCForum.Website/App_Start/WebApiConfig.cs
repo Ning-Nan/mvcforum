@@ -1,5 +1,6 @@
 ﻿namespace MvcForum.Web
 {
+    using System.Net.Http.Headers;
     using System.Web.Http;
 
     public static class WebApiConfig
@@ -13,6 +14,9 @@
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes
+    .Add(new MediaTypeHeaderValue("text/html"));
 
             config.Routes.MapHttpRoute(
                 "DefaultApi",

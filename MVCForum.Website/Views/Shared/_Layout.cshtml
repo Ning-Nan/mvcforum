@@ -17,7 +17,7 @@
     var returnURL = Request.Url.AbsoluteUri;
     var WindowsAuthURL = System.Configuration.ConfigurationManager.AppSettings["WindowsAuthURL"];
     //If Not valid User redirect to get windows auth.
-    if(!User.Identity.IsAuthenticated)
+    if(!User.Identity.IsAuthenticated && !Request.Url.AbsoluteUri.Contains("logon"))
     {
         if (Request.Url.AbsoluteUri.Contains("staffNo"))
         {

@@ -1,6 +1,7 @@
 ﻿namespace MvcForum.Core.Interfaces.Services
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web;
@@ -56,6 +57,8 @@
         int TopicCount(List<Category> allowedCategories);
 
         List<MarkAsSolutionReminder> GetMarkAsSolutionReminderList(int days);
+
+        IList getListForAPI();
 
         /// <summary>
         ///     Mark a topic as solved

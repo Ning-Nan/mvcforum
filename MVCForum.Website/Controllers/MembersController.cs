@@ -1,6 +1,8 @@
 ﻿namespace MvcForum.Web.Controllers
 {
+    using System.IO;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Runtime.InteropServices;
@@ -23,6 +25,7 @@
     using Core.Pipeline;
     using Core.Reflection;
     using MvcForum.Web.Helper;
+    using Newtonsoft.Json;
     using ViewModels;
     using ViewModels.Admin;
     using ViewModels.ExtensionMethods;
@@ -30,6 +33,9 @@
     using ViewModels.Member;
     using ViewModels.Registration;
     using MembershipUser = Core.Models.Entities.MembershipUser;
+    using System.Drawing;
+    using System.Web.Hosting;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     ///     Members controller
@@ -364,16 +370,32 @@
                 // Get the user model
                 var user = userModel.ToMembershipUser();
                 //User register data added test.
-                var staff = LDAPHelper.getStaffByID(user.UserName);
-                user.Name = staff.displayName;
+                //var staffJsonPath = System.Configuration.ConfigurationManager.AppSettings["StaffJson"];
+                //var staffList = JsonConvert.DeserializeObject<List<StaffModel>>(System.IO.File.ReadAllText(staffJsonPath));
 
+                //StaffModel staff = staffList.Where(a => a.ID.ToLower().Contains(user.UserName.ToLower())).FirstOrDefault();
+                StaffModel staff = LDAPHelper.getStaffByID(user.UserName);
+
+                if (!string.IsNullOrEmpty(staff.ID))
+                {
+                    user.Name = staff.displayName;
+                    user.Avatar = staff.ID + ".png";
+                    string result = Regex.Replace(staff.staffPhotoURL, @"^data:image\/[a-zA-Z]+;base64,", string.Empty);
+
+                    string filePath = HostingEnvironment.MapPath($"~/Content/uploads/" + user.Id+"/"+ staff.ID + ".png");
+                    System.IO.FileInfo file = new System.IO.FileInfo(filePath);
+                    file.Directory.Create();
+                    System.IO.File.WriteAllBytes(filePath, Convert.FromBase64String(result));
+
+                }
                 var pipeline = await MembershipService.CreateUser(user, LoginType.Standard);
+                pipeline.ExtendedData.Add(Constants.ExtendedDataKeys.PostedFiles, staff.staffPhotoURL);
+
                 if (!pipeline.Successful)
                 {
                     ModelState.AddModelError(string.Empty, pipeline.ProcessLog.FirstOrDefault());
                     return View();
                 }
-
 
                 // Do the register logic
                 return MemberRegisterLogic(pipeline);

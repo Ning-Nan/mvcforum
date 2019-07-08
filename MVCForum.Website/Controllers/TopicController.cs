@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using Core;
@@ -14,6 +15,7 @@
     using Core.Models.Enums;
     using Core.Models.General;
     using Core.Utilities;
+    using MvcForum.Core.Models;
     using ViewModels;
     using ViewModels.Breadcrumb;
     using ViewModels.ExtensionMethods;
@@ -31,13 +33,15 @@
         private readonly ITopicService _topicService;
         private readonly ITopicTagService _topicTagService;
         private readonly IVoteService _voteService;
+        private readonly IEmailService _emailService;
+
 
         public TopicController(ILoggingService loggingService, IMembershipService membershipService,
             IRoleService roleService, ITopicService topicService, IPostService postService,
             ICategoryService categoryService, ILocalizationService localizationService,
             ISettingsService settingsService, ITopicTagService topicTagService,
             IPollService pollService, IVoteService voteService, IFavouriteService favouriteService, ICacheService cacheService,
-            IMvcForumContext context, INotificationService notificationService)
+            IMvcForumContext context, INotificationService notificationService, IEmailService emailService)
             : base(loggingService, membershipService, localizationService, roleService,
                 settingsService, cacheService, context)
         {
@@ -49,6 +53,8 @@
             _voteService = voteService;
             _favouriteService = favouriteService;
             _notificationService = notificationService;
+            _emailService = emailService;
+
         }
 
 
@@ -363,7 +369,26 @@
                                 MessageType = GenericMessages.info
                             };
 
-                            return RedirectToAction("Index", "Home");
+                            var settings = SettingsService.GetSettings();
+                            var sb = new StringBuilder();
+                            sb.Append($"<p>{string.Concat("New Topic is pending approval.")}</p>");
+                            var email = new Email
+                            {
+                                EmailTo = settings.AdminEmailAddress,
+                                NameTo = "Dear Admin",
+                                Subject = string.Concat("New Topic is pending approval")
+                            };
+                            email.Body = _emailService.EmailTemplate(email.NameTo, sb.ToString());
+                            _emailService.SendMail(email);
+                            try
+                            {
+                                Context.SaveChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                Context.RollBack();
+                                LoggingService.Error(ex);
+                            }
                         }
                     }
 

@@ -17,8 +17,11 @@ namespace MvcForum.Web.ViewModels
         public string mobile { get; set; }
         public string email { get; set; }
         public string office { get; set; }
+        public string officeShort { get; set; }
         public string company { get; set; }
         public string department { get; set; }
         public string state { get; set; }
+        public string managerID { get; set; }
+        public string staffPhotoURL { get; set; }
     }
 }
